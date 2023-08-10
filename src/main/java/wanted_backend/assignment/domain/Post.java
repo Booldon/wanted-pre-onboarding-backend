@@ -18,6 +18,7 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String title;
     private String context;
 
 }

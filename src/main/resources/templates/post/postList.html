@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.title}"></td>
+                <td th:text="${post.context}"></td>
+                <td>
+                    <a href="#" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" class="btn btn-danger" role="button">삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a th:if="${posts.hasPrevious()}" th:href="@{/post/list(page=${posts.previousPageable().pageNumber})}">이전</a>
+        <span th:each="pageNum : ${#numbers.sequence(1, posts.totalPages)}">
+                <a th:href="@{/post/list(page=${pageNum - 1})}" th:text="${pageNum}" th:class="${pageNum == currentPage ? 'active' : ''}"></a></span>
+        <a th:if="${posts.hasNext()}" th:href="@{/post/list(page=${posts.nextPageable().pageNumber})}">다음</a>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
