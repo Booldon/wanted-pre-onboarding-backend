@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <form th:action="@{/post/search}" method="get">
+        <label for="postId">Id</label>
+        <input type="text" id="postId" name="id" required>
+        <button type="submit">검색</button>
+      </form>
+      <tr>
+        <th>#</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="post : ${post}">
+        <td th:text="${post.id}"></td>
+        <td th:text="${post.title}"></td>
+        <td th:text="${post.context}"></td>
+        <td>
+          <a href="#" class="btn btn-primary" role="button">수정</a>
+          <a href="#" class="btn btn-danger" role="button">삭제</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <a th:if="${post.hasPrevious()}" th:href="@{/post/search(page=${post.previousPageable().pageNumber})}">이전</a>
+    <span th:each="pageNum : ${#numbers.sequence(1, post.totalPages)}">
+                <a th:href="@{/post/search(page=${pageNum - 1})}" th:text="${pageNum}" th:class="${pageNum == currentPage ? 'active' : ''}"></a></span>
+    <a th:if="${post.hasNext()}" th:href="@{/post/search(page=${post.nextPageable().pageNumber})}">다음</a>
+  </div>
+</div> <!-- /container -->
+</body>
+</html>
