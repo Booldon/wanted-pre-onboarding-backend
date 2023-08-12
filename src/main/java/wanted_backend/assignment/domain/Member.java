@@ -20,6 +20,9 @@ public class Member {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
+
     @OneToMany(mappedBy = "member") //일대다;
     private List<Post> postList = new ArrayList<>();
 

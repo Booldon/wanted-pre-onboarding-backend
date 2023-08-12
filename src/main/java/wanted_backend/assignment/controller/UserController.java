@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import wanted_backend.assignment.domain.Post;
 import wanted_backend.assignment.form.LoginForm;
 import wanted_backend.assignment.form.MemberForm;
 import wanted_backend.assignment.repository.MemberRepository;
@@ -21,11 +22,11 @@ import wanted_backend.assignment.service.MemberService;
 @Slf4j
 public class UserController {
 
-    private final MemberService userService;
-    private final MemberRepository userRepository;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/signUp")
-    public String showSignUp(@ModelAttribute MemberForm userForm) {
+    public String showSignUp(@ModelAttribute("MemberForm") MemberForm memberForm) {
         return "/users/signUpForm";
     }
 
@@ -35,7 +36,7 @@ public class UserController {
         if(result.hasErrors()) {
             return "/users/signUpForm";
         }
-        userService.singUp(userForm);
+        memberService.singUp(userForm);
 
         return "redirect:/";
 
@@ -52,7 +53,7 @@ public class UserController {
         if(result.hasErrors()) {
             return "/users/loginForm";
         }
-        userService.login(loginForm);
+        memberService.login(loginForm);
         return "redirect:/";
 
     }
@@ -65,7 +66,9 @@ public class UserController {
         MemberForm userForm2 = new MemberForm();
         userForm2.setEmail("dd@ee.ff");
         userForm2.setPassword("12341234");
-        userService.singUp(userForm1);
-        userService.singUp(userForm2);
+        memberService.singUp(userForm1);
+        memberService.singUp(userForm2);
+
     }
+
 }
