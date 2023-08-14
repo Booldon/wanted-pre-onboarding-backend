@@ -9,7 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wanted_backend.assignment.domain.Post;
-import wanted_backend.assignment.form.CreatePostForm;
+import wanted_backend.assignment.request.PostRequest;
+import wanted_backend.assignment.dto.EditPostDto;
 import wanted_backend.assignment.repository.PostRepository;
 import wanted_backend.assignment.service.PostService;
 
@@ -23,12 +24,12 @@ public class PostController {
 
 
     @GetMapping("/new")
-    public String createPost(@ModelAttribute CreatePostForm createPostForm) {
+    public String createPost(@ModelAttribute PostRequest request) {
         return "post/createPostForm";
     }
     @PostMapping("/new")
-    public String savePost(CreatePostForm createPostForm){
-        postService.create(createPostForm);
+    public String savePost(PostRequest request){
+        postService.create(request);
         return "redirect:/post/postList";
 
     }
@@ -41,13 +42,31 @@ public class PostController {
         return "post/postList";
     }
 
-    @PostConstruct
-    private void initializing() {
-        for (int i = 0; i<100; i++) {
-            Post post = new Post();
-            post.setTitle("title"+i);
-            post.setContext("context"+i);
-            postRepository.save(post);
-        }
+    @GetMapping("/search")
+    public String searchPost(@RequestParam("id") Long postId,
+                             @RequestParam(value = "page",defaultValue = "0") Integer page,
+                             Model model) {
+        PageRequest pageRequest = PageRequest.of(0,10);
+        Page<Post> posts = postRepository.findPageById(postId,pageRequest);
+        model.addAttribute("posts",posts);
+        model.addAttribute("currentPage", page);
+        return "post/postList";
+    }
+
+    @GetMapping("/edit")
+    public String editPostForm(@RequestParam("id") Long postId, Model model) {
+        Post post = postRepository.getReferenceById(postId);
+
+        EditPostDto editPostDto = new EditPostDto(post);
+
+        model.addAttribute("post",post);
+        return "post/editPostForm";
+    }
+
+    @PostMapping("/edit")
+    public String editPost(@RequestParam("id") Long postId, @ModelAttribute PostRequest request) {
+        log.info("post is ="+request.getContext());
+        postService.update(postId, request);
+        return "redirect:/post/list";
     }
 }

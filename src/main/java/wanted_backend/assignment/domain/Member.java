@@ -7,20 +7,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
-public class User{
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "user") //일대다;
+    @ManyToMany
+    @JoinTable(
+            name = "member_authority",
+            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+
+    @OneToMany(mappedBy = "member") //일대다;
     private List<Post> postList = new ArrayList<>();
 
 
@@ -30,7 +38,7 @@ public class User{
      * @return 변경된 유저 Entity
      */
 
-    public User hashPassword(PasswordEncoder passwordEncoder) {
+    public Member hashPassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
         return this;
     }

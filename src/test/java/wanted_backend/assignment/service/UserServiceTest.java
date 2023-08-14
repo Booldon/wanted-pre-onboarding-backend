@@ -1,7 +1,9 @@
 package wanted_backend.assignment.service;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+<<<<<<< HEAD
+=======
+>>>>>>> 403974e97c878b16cc16461fbe52666b3477b669
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,9 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-import wanted_backend.assignment.domain.User;
-import wanted_backend.assignment.form.UserForm;
-import wanted_backend.assignment.repository.UserRepository;
+<<<<<<< HEAD
+=======
+import wanted_backend.assignment.domain.Member;
+import wanted_backend.assignment.request.SignUpRequest;
+import wanted_backend.assignment.repository.MemberRepository;
+>>>>>>> 403974e97c878b16cc16461fbe52666b3477b669
 
 @SpringBootTest
 @Transactional
@@ -22,10 +27,11 @@ public class UserServiceTest {
     private static final String PASSWORD = "12345678";
 
     @Autowired
-    private UserService userService;
+
+    private MemberService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository userRepository;
 
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
@@ -34,12 +40,12 @@ public class UserServiceTest {
     @DisplayName("비밀번호는 암호화되어야 한다.")
     void hashPassword() throws Exception {
         //given
-        UserForm userForm = new UserForm();
+        SignUpRequest userForm = new SignUpRequest();
         userForm.setEmail(EMAIL);
         userForm.setPassword(PASSWORD);
 
         //when
-        User user = userService.singUp(userForm);
+        Member user = userService.singUp(userForm);
 
         //then
         System.out.println("newUser pw = " + user.getPassword());

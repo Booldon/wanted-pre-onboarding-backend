@@ -5,6 +5,11 @@
     <div>
         <table class="table table-striped">
             <thead>
+            <form th:action="@{/post/search}" method="get">
+                <label for="postId">Id</label>
+                <input type="text" id="postId" name="id" required>
+                <button type="submit">검색</button>
+            </form>
             <tr>
                 <th>#</th>
                 <th>제목</th>
@@ -18,8 +23,8 @@
                 <td th:text="${post.title}"></td>
                 <td th:text="${post.context}"></td>
                 <td>
-                    <a href="#" class="btn btn-primary" role="button">수정</a>
-                    <a href="#" class="btn btn-danger" role="button">삭제</a>
+                    <a href="#" th:href="@{/post/edit(id=${post.id})}" class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/post/delete(id=${post.id})}" class="btn btn-danger" role="button">삭제</a>
                 </td>
             </tr>
             </tbody>
