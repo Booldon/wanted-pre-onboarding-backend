@@ -1,9 +1,6 @@
 package wanted_backend.assignment.service;
 
 import org.assertj.core.api.Assertions;
-<<<<<<< HEAD
-=======
->>>>>>> 403974e97c878b16cc16461fbe52666b3477b669
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,13 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-<<<<<<< HEAD
-=======
 import wanted_backend.assignment.domain.Member;
 import wanted_backend.assignment.request.SignUpRequest;
 import wanted_backend.assignment.repository.MemberRepository;
->>>>>>> 403974e97c878b16cc16461fbe52666b3477b669
-
 @SpringBootTest
 @Transactional
 @ExtendWith(SpringExtension.class)

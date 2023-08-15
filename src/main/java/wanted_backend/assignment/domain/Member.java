@@ -21,12 +21,10 @@ public class Member {
     private String email;
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "member_authority",
-            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private MemberRole memberRole;
 
     @OneToMany(mappedBy = "member") //일대다;
     private List<Post> postList = new ArrayList<>();

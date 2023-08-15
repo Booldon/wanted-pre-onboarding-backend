@@ -24,7 +24,7 @@ public class PostController {
 
 
     @GetMapping("/new")
-    public String createPost(@ModelAttribute PostRequest request) {
+    public String createPost(@ModelAttribute("post") PostRequest request) {
         return "post/createPostForm";
     }
     @PostMapping("/new")
@@ -56,7 +56,6 @@ public class PostController {
     @GetMapping("/edit")
     public String editPostForm(@RequestParam("id") Long postId, Model model) {
         Post post = postRepository.getReferenceById(postId);
-
         EditPostDto editPostDto = new EditPostDto(post);
 
         model.addAttribute("post",post);
