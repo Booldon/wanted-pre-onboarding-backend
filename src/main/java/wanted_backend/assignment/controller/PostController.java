@@ -1,21 +1,19 @@
 package wanted_backend.assignment.controller;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wanted_backend.assignment.domain.Post;
-import wanted_backend.assignment.request.PostRequest;
-import wanted_backend.assignment.dto.EditPostDto;
+import wanted_backend.assignment.dto.PostDto;
 import wanted_backend.assignment.repository.PostRepository;
 import wanted_backend.assignment.service.PostService;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
 public class PostController {
@@ -23,49 +21,53 @@ public class PostController {
     private final PostRepository postRepository;
 
 
-    @GetMapping("/new")
-    public String createPost(@ModelAttribute("post") PostRequest request) {
-        return "post/createPostForm";
-    }
     @PostMapping("/new")
-    public String savePost(PostRequest request){
-        postService.create(request);
-        return "redirect:/post/postList";
+    public ResponseEntity<PostDto> savePost(@RequestBody PostDto postDto){
+        Post post = postService.create(postDto);
+        PostDto newPostRequest = new PostDto().builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .context(post.getContext())
+                .member(post.getMember())
+                .build();
 
+        return new ResponseEntity<>(newPostRequest, HttpStatus.OK);
     }
     @GetMapping("/list")
-    public String postList(@RequestParam(value = "page", defaultValue = "0") Integer page, Model model) {
-        PageRequest pageRequest = PageRequest.of(page,10);
+    public Page<Post> postList(@RequestParam(value = "page", defaultValue = "0") Integer page) {
+        PageRequest pageRequest = PageRequest.of(page,3);
         Page<Post> posts = postRepository.findAll(pageRequest);
-        model.addAttribute("posts",posts);
-        model.addAttribute("currentPage", page);
-        return "post/postList";
+        return posts;
     }
 
     @GetMapping("/search")
-    public String searchPost(@RequestParam("id") Long postId,
-                             @RequestParam(value = "page",defaultValue = "0") Integer page,
-                             Model model) {
-        PageRequest pageRequest = PageRequest.of(0,10);
+    public Page<Post> searchPost(@RequestParam("id") Long postId,
+                             @RequestParam(value = "page",defaultValue = "0") Integer page) {
+        PageRequest pageRequest = PageRequest.of(0,3);
         Page<Post> posts = postRepository.findPageById(postId,pageRequest);
-        model.addAttribute("posts",posts);
-        model.addAttribute("currentPage", page);
-        return "post/postList";
-    }
-
-    @GetMapping("/edit")
-    public String editPostForm(@RequestParam("id") Long postId, Model model) {
-        Post post = postRepository.getReferenceById(postId);
-        EditPostDto editPostDto = new EditPostDto(post);
-
-        model.addAttribute("post",post);
-        return "post/editPostForm";
+        return posts;
     }
 
     @PostMapping("/edit")
-    public String editPost(@RequestParam("id") Long postId, @ModelAttribute PostRequest request) {
-        log.info("post is ="+request.getContext());
-        postService.update(postId, request);
-        return "redirect:/post/list";
+    public ResponseEntity<PostDto> editPost(@RequestParam("id") Long postId, @RequestBody PostDto postDto) {
+        log.info("post is ={}",postDto.getContext());
+        Post editPost = postService.update(postId, postDto);
+        PostDto edPostRequest = new PostDto().builder()
+                .id(editPost.getId())
+                .title(editPost.getTitle())
+                .context(editPost.getContext())
+                .member(editPost.getMember())
+                .build();
+
+        return new ResponseEntity<>(edPostRequest,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public Page<Post> deletePost(@RequestParam("id") Long postId) {
+        postService.delete(postId);
+        log.info("delete id ={}",postId);
+        PageRequest pageRequest = PageRequest.of(0,3);
+        Page<Post> posts = postRepository.findAll(pageRequest);
+        return posts;
     }
 }

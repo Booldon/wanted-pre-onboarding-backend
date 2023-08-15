@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import wanted_backend.assignment.domain.Member;
-import wanted_backend.assignment.request.SignUpRequest;
+import wanted_backend.assignment.dto.SignUpDto;
 import wanted_backend.assignment.repository.MemberRepository;
 @SpringBootTest
 @Transactional
@@ -33,7 +33,7 @@ public class UserServiceTest {
     @DisplayName("비밀번호는 암호화되어야 한다.")
     void hashPassword() throws Exception {
         //given
-        SignUpRequest userForm = new SignUpRequest();
+        SignUpDto userForm = new SignUpDto();
         userForm.setEmail(EMAIL);
         userForm.setPassword(PASSWORD);
 

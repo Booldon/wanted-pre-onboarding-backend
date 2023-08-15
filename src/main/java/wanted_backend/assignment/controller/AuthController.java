@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import wanted_backend.assignment.dto.TokenDto;
 import wanted_backend.assignment.jwt.JwtFilter;
 import wanted_backend.assignment.jwt.TokenProvider;
-import wanted_backend.assignment.request.LoginRequest;
+import wanted_backend.assignment.dto.LoginDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class AuthController {
 
 
     @PostMapping("/authenticate")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto request) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());

@@ -26,9 +26,6 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private MemberRole memberRole;
 
-    @OneToMany(mappedBy = "member") //일대다;
-    private List<Post> postList = new ArrayList<>();
-
 
     /**
      * 비밀번호 암호화
