@@ -16,5 +16,6 @@ Spring Security-jwt를 통해 로그인 시 클라이언트에게 jwt를 반환�
 
 게시글의 pagenation기능은 JpaRepostitory의 pageable기능을 사용하여 구현하였습니다.
 
-게시글의 수정 및 삭제의 권한을 판별할때는 SecurityContext에 등록된 사용자의 Autorization을 get하여 게시글 작성자의 ID를 비교하도록 하였습니다.
+게시글의 수정 및 삭제의 권한을 판별할때는 로그인시 SecurityContext에 등록된 사용자의 Autorization을 get하여 게시글 작성자의 ID를 비교하도록 하였습니다.
+
 API 명세 : https://documenter.getpostman.com/view/26437760/2s9Y5QzkjJ
