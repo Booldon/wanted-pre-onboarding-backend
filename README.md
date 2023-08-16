@@ -3,15 +3,17 @@
 
 지원자  : 정병국
 
+애플리케이션 실행 방법 : PostMan을 사용하여 엔드포인트를 호출하여 개발하였습니다. ㅠㅠ 공지를 늦게봐서 시간 조절에 실패하였네요 ㅠㅠ..
+
 데이터 베이스 테이블 구조 :
 
 ![assignment_Entity](https://github.com/Booldon/wanted-pre-onboarding-backend/assets/99729203/848281cc-13bf-48a1-89e6-32de0ebd15fb)
 
-애플리케이션 실행 방법 : PostMan을 사용하여 엔드포인트를 호출하여 개발하였습니다. ㅠㅠ 공지를 늦게봐서 시간 조절에 실패하였네요 ㅠㅠ..
+
+
+데모 영상 :https://youtu.be/r_IUp0KmpeI
 
 API 명세 : https://documenter.getpostman.com/view/26437760/2s9Y5QzkjJ
-
-
 
 
 해당 애플리케이션은 JAVA/Spring Boot를 사용하여 개발하였으며, 
